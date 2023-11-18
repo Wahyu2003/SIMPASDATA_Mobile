@@ -47,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
             override fun onResponse(call: Call<ResponseLogin>, response: Response<ResponseLogin>) {
                 if (response.isSuccessful) {
                     if (response.body()?.response == true) {
-                       val Intent = Intent(this@LoginActivity, MainActivity::class.java)
+                       val Intent = Intent(this@LoginActivity, MainActivity ::class.java)
                         startActivity(Intent)
                     } else {
                         Toast.makeText(

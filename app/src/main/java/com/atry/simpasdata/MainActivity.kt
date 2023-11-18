@@ -1,5 +1,6 @@
 package com.atry.simpasdata
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.Window
@@ -26,6 +27,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navigationView = findViewById<NavigationView>(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
 
+
         val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_nav, R.string.close_nav)
 
         drawerLayout.addDrawerListener(toggle)
@@ -38,7 +40,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        val Intent = Intent(this@MainActivity, LoginActivity::class.java)
+
         when (item.itemId) {
             R.id.nav_home -> supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, HomeFragment()).commit()
@@ -48,7 +53,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .replace(R.id.fragment_container, ShareFragment()).commit()
             R.id.nav_about -> supportFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, InfoFragment()).commit()
-            R.id.nav_logout -> Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show()
+            R.id.nav_logout -> startActivity(Intent)
         }
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
