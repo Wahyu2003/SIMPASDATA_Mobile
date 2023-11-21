@@ -8,9 +8,11 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="212dp"
-        android:layout_height="170dp"
+        android:layout_width="124dp"
+        android:layout_height="100dp"
         app:srcCompat="@drawable/baseline_home_24"
         tools:layout_editor_absoluteX="59dp"
         tools:layout_editor_absoluteY="183dp" />
+
+
 </LinearLayout>
