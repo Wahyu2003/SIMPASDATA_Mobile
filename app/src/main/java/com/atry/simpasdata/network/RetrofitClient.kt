@@ -1,5 +1,6 @@
 import com.atry.simpasdata.network.ApiClient
-import com.atry.simpasdata.network.CustomTrustManager
+import com.atry.simpasdata.network.CostumTrustManager
+import kotlinx.coroutines.CoroutineScope
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -12,7 +13,7 @@ import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 class RetrofitClient {
 
-    private val trustManager: X509TrustManager = CustomTrustManager()
+    private val trustManager: X509TrustManager = CostumTrustManager()
 
     private val sslContext: SSLContext = SSLContext.getInstance("TLS").apply {
         init(null, arrayOf<TrustManager>(trustManager), SecureRandom())
