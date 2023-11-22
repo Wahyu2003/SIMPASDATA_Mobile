@@ -1,37 +1,43 @@
 package com.atry.simpasdata
 
 import RetrofitClient
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.atry.simpasdata.databinding.LoginBinding
 import com.atry.simpasdata.model.ResponseLogin
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
-        private var binding : LoginBinding? = null
-        private var user : String = ""
-        private var pass : String = ""
+
+    private var binding: LoginBinding? = null
+    private var nisn: String = ""
+    private var password: String = ""
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = LoginBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
 
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("user_data", Context.MODE_PRIVATE)
+
         binding!!.buttonLogin.setOnClickListener {
-            user = binding!!.editTextUsername.text.toString()
-            pass = binding!!.editTextPassword.text.toString()
+            nisn = binding!!.editTextUsername.text.toString()
+            password = binding!!.editTextPassword.text.toString()
 
             when {
-                user == "" -> {
-                    binding!!.editTextUsername.error = "Username tidak boleh kosong"
+                nisn.isEmpty() -> {
+                    binding!!.editTextUsername.error = "NISN atau NIP tidak boleh kosong"
                 }
-                pass == "" -> {
+                password.isEmpty() -> {
                     binding!!.editTextPassword.error = "Password tidak boleh kosong"
                 }
                 else -> {
@@ -41,24 +47,32 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun getData(){
+    private fun getData() {
         val api = RetrofitClient().getInstance()
-        api.login(user,pass).enqueue(object : Callback<ResponseLogin>{
+        api.login(nisn, password).enqueue(object : Callback<ResponseLogin> {
             override fun onResponse(call: Call<ResponseLogin>, response: Response<ResponseLogin>) {
                 if (response.isSuccessful) {
                     if (response.body()?.response == true) {
+                        // Save NISN to SharedPreferences
+                        val editor = sharedPreferences.edit()
+                        editor.putString("NISN", nisn)
+                        editor.apply()
 
-                       val Intent = Intent(this@LoginActivity, DashboardActivity::class.java)
+                        // Log saved NISN
+                        Log.d("SharedPreferences", "NISN saved: $nisn")
 
-                        startActivity(Intent)
+                        // Move to DashboardActivity after successful login
+                        val intent = Intent(this@LoginActivity, DashboardActivity::class.java)
+                        startActivity(intent)
+                        finish() // Close LoginActivity to prevent going back
                     } else {
                         Toast.makeText(
                             this@LoginActivity,
-                            "Login Gagal, periksa kembali nip/nisn dan pasword",
+                            "Login Gagal, periksa kembali NISN dan password",
                             Toast.LENGTH_LONG
                         ).show()
                     }
-                }else {
+                } else {
                     Toast.makeText(
                         this@LoginActivity,
                         "Login Gagal, terjadi kesalahan",
@@ -68,12 +82,8 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<ResponseLogin>, t: Throwable) {
-               Log.e("pesan error","${t.message}")
+                Log.e("pesan error", "${t.message}")
             }
-
-
         })
     }
 }
-
-
