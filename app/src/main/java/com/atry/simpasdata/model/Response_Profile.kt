@@ -8,5 +8,6 @@ data class ProfileItem(
     val email: String,
     val no_hp: String,
     val alamat: String,
-    val role: String
+    val role: String,
+    val nama_kelas: String
 )

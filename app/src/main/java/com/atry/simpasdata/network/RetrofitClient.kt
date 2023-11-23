@@ -28,7 +28,7 @@ class RetrofitClient {
 
 
     private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("http://10.10.4.163/")  // Sesuaikan dengan alamat IP atau hostname server Anda
+        .baseUrl("http://192.168.1.10/")  // Sesuaikan dengan alamat IP atau hostname server Anda
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
         .build()

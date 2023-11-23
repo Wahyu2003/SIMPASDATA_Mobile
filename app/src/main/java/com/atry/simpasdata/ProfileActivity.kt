@@ -1,9 +1,11 @@
 package com.atry.simpasdata
 
 import RetrofitClient
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +21,13 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
+        val edit : Button = findViewById(R.id.edit_profile)
+        edit.setOnClickListener{
+            val intent = Intent(this, edit_profil::class.java)
+            startActivity(intent)
+
+
+        }
         // Get NISN from SharedPreferences
         val sharedPreferences: SharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE)
         val nipnisn: String? = sharedPreferences.getString("NISN", "")
@@ -50,13 +59,15 @@ class ProfileActivity : AppCompatActivity() {
                             val noHpTextView: TextView = findViewById(R.id.nomer)
                             val alamatTextView: TextView = findViewById(R.id.alamat)
                             val roleTextView: TextView = findViewById(R.id.role)
+                            val kelasTextView: TextView = findViewById(R.id.kelas)
 
                             nisnTextView.text = "NISN: ${profile.nisn}"
                             namaTextView.text = "Nama: ${profile.nama}"
                             emailTextView.text = "Email: ${profile.email}"
-                            noHpTextView.text = "No. HP: ${profile.no_hp}"
+                            noHpTextView.text = "No.HP: ${profile.no_hp}"
                             alamatTextView.text = "Alamat: ${profile.alamat}"
                             roleTextView.text = "Role: ${profile.role}"
+                            kelasTextView.text = "Kelas: ${profile.nama_kelas}"
                         } else {
                             // Handle case where profile data is empty
                             Toast.makeText(
