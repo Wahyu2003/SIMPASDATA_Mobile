@@ -4,7 +4,7 @@ import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
 import javax.net.ssl.X509TrustManager
 
-class CustomTrustManager : X509TrustManager {
+class CostumTrustManager : X509TrustManager {
 
     override fun checkClientTrusted(chain: Array<out X509Certificate>?, authType: String?) {
         // Implementasi sesuai kebutuhan
