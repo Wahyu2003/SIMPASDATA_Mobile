@@ -1,36 +1,40 @@
 package com.atry.simpasdata
 
+import RetrofitClient
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.SharedPreferences
 import android.os.Bundle
+import android.provider.ContactsContract.Profile
+import android.util.Log
 import android.view.View
 import android.widget.CalendarView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import RetrofitClient
-import android.content.SharedPreferences
 
+import com.atry.simpasdata.model.ProfileItem
 import com.atry.simpasdata.model.Response_Profile
-import com.atry.simpasdata.network.ApiClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import android.util.Log
-import android.widget.TextView
 
 class DashboardActivity : AppCompatActivity() {
 
     private lateinit var profileNameTextView: TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
         // Initialize the view
         profileNameTextView = findViewById(R.id.profile_name)
+
         // Get NISN from SharedPreferences
         val sharedPreferences: SharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE)
         val nipnisn: String? = sharedPreferences.getString("NISN", "")
         Log.d("NISN", "NISN: $nipnisn")
+
         // Check if NISN is not empty before making API call
         if (nipnisn?.isNotEmpty() == true) {
             // Make Retrofit call to get profile based on NISN
@@ -42,26 +46,57 @@ class DashboardActivity : AppCompatActivity() {
                     call: Call<Response_Profile>,
                     response: Response<Response_Profile>
                 ) {
-                    if (response.isSuccessful) {
-                        val profileResponse: Response_Profile? = response.body()
-                        // Check if the profileResponse is not null and the list of profiles is not empty
-                        if (profileResponse != null && profileResponse.nama.isNotEmpty()) {
-                            // Update UI with the obtained name
-                            profileNameTextView.text = profileResponse.nama[0].nama
+                    try {
+                        if (response.isSuccessful) {
+                            val profileResponse: Response_Profile? = response.body()
+
+                            // Check if the profileResponse is not null and the list of profiles is not empty
+                            if (profileResponse != null && profileResponse.profile != null) {
+                                val profiles: List<ProfileItem> = profileResponse.profile
+                                if (profiles.isNotEmpty()) {
+                                    val profile: ProfileItem = profiles[0]
+                                    val nama: String? = profile.nama
+                                    if (nama != null) {
+                                        // Update UI with the obtained name
+                                        profileNameTextView.text = nama
+                                    } else {
+                                        // Handle the case where 'nama' is null
+                                        Toast.makeText(
+                                            this@DashboardActivity,
+                                            "Data nama tidak valid (nama is null)",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                } else {
+                                    // Handle the case where the list of profiles is empty
+                                    Toast.makeText(
+                                        this@DashboardActivity,
+                                        "List data nama kosong",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            } else {
+                                // Handle the case where profileResponse or profileResponse.profile is null
+                                Toast.makeText(
+                                    this@DashboardActivity,
+                                    "Data nama tidak valid (response or profile is null)",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         } else {
-                            // Handle the case where the profileResponse is null or the list of profiles is empty
+                            // Handle unsuccessful response
+                            Log.e("Response", "Unsuccessful response: ${response.message()}")
                             Toast.makeText(
                                 this@DashboardActivity,
-                                "Data nama tidak valid",
+                                "Gagal mendapatkan nama (unsuccessful response)",
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
-                    } else {
-                        // Handle unsuccessful response
-                        Log.e("Response", "Unsuccessful response: ${response.message()}")
+                    } catch (e: Exception) {
+                        Log.e("Response", "Exception: ${e.message}")
                         Toast.makeText(
                             this@DashboardActivity,
-                            "Gagal mendapatkan nama",
+                            "Terjadi kesalahan saat memproses data",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -77,22 +112,22 @@ class DashboardActivity : AppCompatActivity() {
                     ).show()
                 }
             })
+
         } else {
             // Handle the case where NISN is empty
             Toast.makeText(this, "NISN kosong", Toast.LENGTH_SHORT).show()
         }
-        // ... (Other code inside onCreate)
 
+        // ... (Other code inside onCreate)
 
         val home: CardView = findViewById(R.id.Home)
         val akun: CardView = findViewById(R.id.Akun)
         val kalender: CalendarView = findViewById(R.id.kalender)
 
-        kalender.setOnDateChangeListener { kalender, i, i2, i3 ->
+        kalender.setOnDateChangeListener { _, i, i2, i3 ->
             Toast.makeText(this@DashboardActivity, "Selected Date:$i3/$i2$i", Toast.LENGTH_LONG)
                 .show()
         }
-
 
         // Set an OnClickListener for the CardView
         home.setOnClickListener(View.OnClickListener {
@@ -105,8 +140,5 @@ class DashboardActivity : AppCompatActivity() {
             val intent = Intent(this@DashboardActivity, ProfileActivity::class.java)
             startActivity(intent)
         })
-
     }
 }
-
-
