@@ -4,9 +4,11 @@ import RetrofitClient
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
@@ -15,6 +17,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.atry.simpasdata.model.Response_Profile
 import com.bumptech.glide.Glide
+import com.squareup.picasso.Picasso
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -72,6 +78,8 @@ class ProfileActivity : AppCompatActivity() {
                             val alamatTextView: TextView = findViewById(R.id.alamat)
                             val roleTextView: TextView = findViewById(R.id.role)
                             val kelasTextView: TextView = findViewById(R.id.kelas)
+                            val fotoImageView: ImageView = findViewById(R.id.imageView3)
+
 
                             nisnTextView.text = "NISN: ${profile.nisn}"
                             namaTextView.text = "Nama: ${profile.nama}"
@@ -81,11 +89,10 @@ class ProfileActivity : AppCompatActivity() {
                             roleTextView.text = "Role: ${profile.role}"
                             kelasTextView.text = "Kelas: ${profile.nama_kelas}"
 
-                            // Load and display profile image
-                            Glide.with(this@ProfileActivity)
-                                .load(profile.foto)
-                                .placeholder(R.drawable.placeholder_image)
-                                .into(profileImageView)
+
+
+                            loadProfileImage(profile.foto, fotoImageView)
+
                         } else {
                             // Handle case where profile data is empty
                             Toast.makeText(
@@ -118,6 +125,26 @@ class ProfileActivity : AppCompatActivity() {
         } else {
             // Handle the case where NISN is empty
             Toast.makeText(this, "NISN kosong", Toast.LENGTH_SHORT).show()
+        }
+
+    }
+
+    private fun loadProfileImage(imageBase64: String?, imageView: ImageView) {
+        if (!imageBase64.isNullOrEmpty()) {
+            // Menggunakan Coroutines untuk melakukan operasi jaringan di background
+            GlobalScope.launch(Dispatchers.IO) {
+                try {
+                    val imageBytes: ByteArray = Base64.decode(imageBase64, Base64.DEFAULT)
+                    val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+
+                    // Menggunakan Dispatcher Main untuk memperbarui UI di thread utama
+                    launch(Dispatchers.Main) {
+                        imageView.setImageBitmap(bitmap)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
         }
     }
 }
