@@ -1,10 +1,13 @@
 package com.atry.simpasdata
 
 import RetrofitClient
+import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
 import android.widget.Button
@@ -13,27 +16,37 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.atry.simpasdata.model.Response_Profile
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
 
 class ProfileActivity : AppCompatActivity() {
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
-        val edit : Button = findViewById(R.id.edit_profile)
-        edit.setOnClickListener{
+        val edit: Button = findViewById(R.id.edit_profile)
+
+
+        edit.setOnClickListener {
             val intent = Intent(this, edit_profil::class.java)
             startActivity(intent)
-
-
         }
+
         // Get NISN from SharedPreferences
         val sharedPreferences: SharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE)
         val nipnisn: String? = sharedPreferences.getString("NISN", "")
@@ -68,7 +81,6 @@ class ProfileActivity : AppCompatActivity() {
                             val kelasTextView: TextView = findViewById(R.id.kelas)
                             val fotoImageView: ImageView = findViewById(R.id.imageView3)
 
-                            loadProfileImage(profile.foto, fotoImageView)
 
                             nisnTextView.text = "NISN: ${profile.nisn}"
                             namaTextView.text = "Nama: ${profile.nama}"
@@ -77,6 +89,11 @@ class ProfileActivity : AppCompatActivity() {
                             alamatTextView.text = "Alamat: ${profile.alamat}"
                             roleTextView.text = "Role: ${profile.role}"
                             kelasTextView.text = "Kelas: ${profile.nama_kelas}"
+
+
+
+                            loadProfileImage(profile.foto, fotoImageView)
+
                         } else {
                             // Handle case where profile data is empty
                             Toast.makeText(
@@ -111,9 +128,7 @@ class ProfileActivity : AppCompatActivity() {
             Toast.makeText(this, "NISN kosong", Toast.LENGTH_SHORT).show()
         }
 
-
     }
-
     fun loadProfileImage(imageBase64: String?, imageView: ImageView) {
         if (!imageBase64.isNullOrEmpty()) {
             // Menggunakan Coroutines untuk melakukan operasi jaringan di background
@@ -132,5 +147,8 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
 
-    }
+        }
+
 }
+
+
