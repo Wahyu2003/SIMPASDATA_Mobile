@@ -66,6 +66,9 @@ class ProfileActivity : AppCompatActivity() {
                             val alamatTextView: TextView = findViewById(R.id.alamat)
                             val roleTextView: TextView = findViewById(R.id.role)
                             val kelasTextView: TextView = findViewById(R.id.kelas)
+                            val fotoImageView: ImageView = findViewById(R.id.imageView3)
+
+                            loadProfileImage(profile.foto, fotoImageView)
 
                             nisnTextView.text = "NISN: ${profile.nisn}"
                             namaTextView.text = "Nama: ${profile.nama}"
