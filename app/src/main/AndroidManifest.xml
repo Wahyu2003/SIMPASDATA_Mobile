@@ -16,6 +16,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".nilai"
+            android:exported="false" />
+        <activity
             android:name=".edit_profil"
             android:exported="false" />
         <activity
