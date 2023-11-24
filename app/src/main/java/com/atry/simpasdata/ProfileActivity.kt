@@ -129,7 +129,7 @@ class ProfileActivity : AppCompatActivity() {
 
     }
 
-    private fun loadProfileImage(imageBase64: String?, imageView: ImageView) {
+    fun loadProfileImage(imageBase64: String?, imageView: ImageView) {
         if (!imageBase64.isNullOrEmpty()) {
             // Menggunakan Coroutines untuk melakukan operasi jaringan di background
             GlobalScope.launch(Dispatchers.IO) {

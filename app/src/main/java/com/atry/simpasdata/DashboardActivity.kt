@@ -8,6 +8,7 @@ import android.provider.ContactsContract.Profile
 import android.util.Log
 import android.view.View
 import android.widget.CalendarView
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -54,11 +55,15 @@ class DashboardActivity : AppCompatActivity() {
                             if (profileResponse != null && profileResponse.profile != null) {
                                 val profiles: List<ProfileItem> = profileResponse.profile
                                 if (profiles.isNotEmpty()) {
+                                    val fotoImageView: ImageView = findViewById(R.id.profile)
+                                    val fotoprof = ProfileActivity()
+
                                     val profile: ProfileItem = profiles[0]
                                     val nama: String? = profile.nama
                                     if (nama != null) {
                                         // Update UI with the obtained name
                                         profileNameTextView.text = nama
+                                        fotoprof.loadProfileImage(profile.foto, fotoImageView)
                                     } else {
                                         // Handle the case where 'nama' is null
                                         Toast.makeText(
