@@ -17,15 +17,5 @@ data class ProfileItem(
 )
 
 
-data class UpdateProfileData(
-    val alamat: String,
-    val email: String,
-    val noHp: String
-)
-
-data class RequestUpdateProfile(
-    val updateProfileData: UpdateProfileData,
-    val foto: MultipartBody.Part
-)
 
 

@@ -1,10 +1,11 @@
 package com.atry.simpasdata.network
 
-import com.atry.simpasdata.model.RequestUpdateProfile
+
 import com.atry.simpasdata.model.ResponseLogin
 import com.atry.simpasdata.model.Response_Profile
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -30,10 +31,15 @@ interface ApiClient {
 
     @Multipart
     @POST("SIMPASDATA_Web/database/update.php")
-    fun updateProfile(
-        @Part("updateProfileData") updateProfileData: RequestBody,
-        @Part foto: MultipartBody.Part?
-    ): Call<Response_Profile>
+    fun updateData(
+        @Part("nisn") nisn: RequestBody,
+        @Part("alamat") alamat: RequestBody?,
+        @Part("email") email: RequestBody?,
+        @Part("no_hp") noHp: RequestBody?,
+        @Part foto: MultipartBody.Part?,
+    ): Call<ResponseBody>
+
+
 
 
 }
