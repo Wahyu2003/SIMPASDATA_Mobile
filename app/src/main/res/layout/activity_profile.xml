@@ -26,27 +26,21 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/profil" />
 
-            <Button
-                android:id="@+id/edit_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Button"
-                app:layout_constraintBottom_toTopOf="@+id/imageView3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.835"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageView3"
                 android:layout_width="150dp"
-                android:layout_height="160dp"
-
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.236" />
+                app:layout_constraintVertical_bias="0.192"
+                app:shapeAppearanceOverlay="@style/cilular"
+                app:strokeColor="@color/black"
+                app:strokeWidth="5dp" />
 
             <TextView
                 android:id="@+id/name"
@@ -59,14 +53,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.399" />
+                app:layout_constraintVertical_bias="0.351" />
 
             <androidx.cardview.widget.CardView
-                android:layout_width="362dp"
-                android:layout_height="377dp"
+                android:layout_width="355dp"
+                android:layout_height="435dp"
+                android:background="@color/white"
                 app:cardCornerRadius="15dp"
                 app:cardElevation="5dp"
-                android:background="@color/white"
                 app:layout_constraintBottom_toBottomOf="@+id/imageView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -81,13 +75,13 @@
                         android:id="@+id/nisn"
                         android:layout_width="318dp"
                         android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
                         android:background="@drawable/textview"
                         android:drawableLeft="@drawable/baseline_confirmation_number_24"
                         android:drawablePadding="15dp"
                         android:padding="10dp"
                         android:text="NISN"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -96,28 +90,28 @@
                         android:id="@+id/email"
                         android:layout_width="318dp"
                         android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
                         android:background="@drawable/textview"
                         android:drawableLeft="@drawable/baseline_email_24"
                         android:drawablePadding="15dp"
-                        android:padding="7dp"
+                        android:padding="12dp"
                         android:text="EMAIL"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
                         android:textColor="@color/black"
-                        android:textSize="20sp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/nomer"
                         android:layout_width="318dp"
                         android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
                         android:background="@drawable/textview"
                         android:drawableLeft="@drawable/baseline_local_phone_24"
                         android:drawablePadding="15dp"
                         android:padding="9dp"
                         android:text="NO HP"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -126,13 +120,13 @@
                         android:id="@+id/alamat"
                         android:layout_width="318dp"
                         android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
                         android:background="@drawable/textview"
                         android:drawableLeft="@drawable/baseline_location_city_24"
                         android:drawablePadding="15dp"
                         android:padding="9dp"
                         android:text="ALAMAT"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -141,13 +135,13 @@
                         android:id="@+id/role"
                         android:layout_width="318dp"
                         android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
                         android:background="@drawable/textview"
                         android:drawableLeft="@drawable/role"
                         android:drawablePadding="15dp"
                         android:padding="9dp"
                         android:text="ROLE"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="10dp"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -156,23 +150,29 @@
                         android:id="@+id/kelas"
                         android:layout_width="318dp"
                         android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
                         android:background="@drawable/textview"
                         android:drawableLeft="@drawable/role"
                         android:drawablePadding="15dp"
                         android:padding="9dp"
                         android:text="KELAS"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="10dp"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/edit_profile"
+                        android:layout_width="318dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/button"
+                        android:gravity="center"
+                        android:text="Edit profile"
+                        android:textColor="@color/white" />
                 </LinearLayout>
-
             </androidx.cardview.widget.CardView>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </LinearLayout>
-
-
 </LinearLayout>
