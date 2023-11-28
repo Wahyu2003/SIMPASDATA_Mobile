@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.ContactsContract.Profile
 import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.CalendarView
 import android.widget.ImageView
 import android.widget.TextView
@@ -30,6 +31,7 @@ class DashboardActivity : AppCompatActivity() {
 
         // Initialize the view
         profileNameTextView = findViewById(R.id.profile_name)
+
 
         // Get NISN from SharedPreferences
         val sharedPreferences: SharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE)

@@ -160,6 +160,8 @@ class edit_profil : AppCompatActivity() {
                 if (response.isSuccessful) {
                     // Handle respon sukses
                     Toast.makeText(this@edit_profil, "Profil berhasil diperbarui", Toast.LENGTH_SHORT).show()
+                    val intent = Intent (this@edit_profil, ProfileActivity::class.java)
+                    startActivity(intent)
                 } else {
                     // Handle respon error
                     Toast.makeText(this@edit_profil, "Gagal memperbarui profil", Toast.LENGTH_SHORT).show()

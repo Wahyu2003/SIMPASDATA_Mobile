@@ -12,6 +12,7 @@
         android:layout_height="250dp"
         android:background="@color/Red">
 
+
     </RelativeLayout>
 
     <LinearLayout
