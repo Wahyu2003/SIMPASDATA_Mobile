@@ -7,24 +7,15 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Base64
 import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.loader.content.CursorLoader
-
 import com.atry.simpasdata.model.Response_Profile
-
-import com.atry.simpasdata.network.ApiClient
-import com.bumptech.glide.Glide
-import com.google.gson.Gson
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
@@ -35,8 +26,6 @@ import java.io.File
 import java.io.FileOutputStream
 
 class edit_profil : AppCompatActivity() {
-    private val gson = Gson()
-
     private val PICK_IMAGE_REQUEST = 1
     private var selectedImageUri: Uri? = null
     private lateinit var tambah: Button
@@ -91,13 +80,13 @@ class edit_profil : AppCompatActivity() {
 
                             // Load profile image using Glide
                             fotoprof.loadProfileImage(profile.foto, fotoImageView)
-                            nisnTextView.text = "NISN: ${profile.nisn}"
-                            namaTextView.text = "Nama: ${profile.nama}"
-                            emailTextView.text = "Email: ${profile.email}"
-                            noHpTextView.text = "No.HP: ${profile.no_hp}"
-                            alamatTextView.text = "Alamat: ${profile.alamat}"
-                            roleTextView.text = "Role: ${profile.role}"
-                            kelasTextView.text = "Kelas: ${profile.nama_kelas}"
+                            nisnTextView.text = "${profile.nisn}"
+                            namaTextView.text = "${profile.nama}"
+                            emailTextView.text = "${profile.email}"
+                            noHpTextView.text = "${profile.no_hp}"
+                            alamatTextView.text = "${profile.alamat}"
+                            roleTextView.text = "${profile.role}"
+                            kelasTextView.text = "${profile.nama_kelas}"
                         } else {
                             // Handle case where profile data is empty
                             Toast.makeText(this@edit_profil, "Data profil tidak valid", Toast.LENGTH_SHORT).show()
@@ -120,6 +109,7 @@ class edit_profil : AppCompatActivity() {
             Toast.makeText(this@edit_profil, "NISN kosong", Toast.LENGTH_SHORT).show()
         }
     }
+
     private fun updateProfile() {
         val ni: TextView = findViewById(R.id.nisn)
         val alam: TextView = findViewById(R.id.alamat)
@@ -144,12 +134,18 @@ class edit_profil : AppCompatActivity() {
         val emailRequestBody = email.toRequestBody("text/plain".toMediaTypeOrNull())
         val noHpRequestBody = noHp.toRequestBody("text/plain".toMediaTypeOrNull())
 
+        // Sebelum melakukan panggilan API, log imageFile dan foto
+        Log.d("UpdateProfile", "imageFile: $imageFile")
+
         val foto: MultipartBody.Part? = if (imageFile != null) {
-            val requestFile = RequestBody.create("image/*".toMediaTypeOrNull(), imageFile)
+            val requestFile = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
             MultipartBody.Part.createFormData("foto", imageFile.name, requestFile)
         } else {
             null
         }
+
+        // Sebelum melakukan panggilan API, log foto
+        Log.d("UpdateProfile", "foto: $foto")
 
         val retrofitClient = RetrofitClient()
         val apiService = retrofitClient.getInstance()
@@ -178,17 +174,17 @@ class edit_profil : AppCompatActivity() {
         })
     }
 
-
     private fun pickImage() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-            val selectedImageUri: Uri? = data.data
-                val foto :ImageView = findViewById (R.id.profile)
+            selectedImageUri = data.data
+            val foto: ImageView = findViewById(R.id.profile)
             foto.setImageURI(selectedImageUri)
         }
     }
@@ -201,4 +197,3 @@ class edit_profil : AppCompatActivity() {
         return file
     }
 }
-
