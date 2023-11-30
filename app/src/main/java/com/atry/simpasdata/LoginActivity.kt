@@ -27,6 +27,13 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = LoginBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
+        val lupaPassword : TextView = findViewById(R.id.lupa);
+
+        lupaPassword.setOnClickListener(View.OnClickListener {
+            // Start the next activity when the CardView is clicked
+            val intent = Intent(this@LoginActivity, lupa::class.java)
+            startActivity(intent)
+        })
 
         val lupaPassword : TextView = findViewById(R.id.lupa);
 
