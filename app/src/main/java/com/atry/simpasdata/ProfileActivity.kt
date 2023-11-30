@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -40,6 +41,13 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
 
         val edit: Button = findViewById(R.id.edit_profile)
+        val back : Button = findViewById(R.id.kembali)
+
+        back.setOnClickListener(View.OnClickListener {
+            // Start the next activity when the CardView is clicked
+            val intent = Intent(this@ProfileActivity, DashboardActivity::class.java)
+            startActivity(intent)
+        })
 
 
         edit.setOnClickListener {

@@ -129,12 +129,14 @@ class DashboardActivity : AppCompatActivity() {
 
         val home: CardView = findViewById(R.id.Home)
         val akun: CardView = findViewById(R.id.Akun)
+        val logout : Button = findViewById(R.id.logout)
         val kalender: CalendarView = findViewById(R.id.kalender)
 
         kalender.setOnDateChangeListener { _, i, i2, i3 ->
             Toast.makeText(this@DashboardActivity, "Selected Date:$i3/$i2$i", Toast.LENGTH_LONG)
                 .show()
         }
+
 
         // Set an OnClickListener for the CardView
         home.setOnClickListener(View.OnClickListener {
@@ -145,6 +147,11 @@ class DashboardActivity : AppCompatActivity() {
         akun.setOnClickListener(View.OnClickListener {
             // Start the next activity when the CardView is clicked
             val intent = Intent(this@DashboardActivity, ProfileActivity::class.java)
+            startActivity(intent)
+        })
+        logout.setOnClickListener(View.OnClickListener {
+            // Start the next activity when the CardView is clicked
+            val intent = Intent(this@DashboardActivity, LoginActivity::class.java)
             startActivity(intent)
         })
     }

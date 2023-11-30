@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -39,7 +40,13 @@ class edit_profil : AppCompatActivity() {
         tambah = findViewById(R.id.tambah_gambar)
 
         val saveButton: Button = findViewById(R.id.save)
+        val back : Button = findViewById(R.id.back)
 
+        back.setOnClickListener(View.OnClickListener {
+            // Start the next activity when the CardView is clicked
+            val intent = Intent(this@edit_profil, ProfileActivity::class.java)
+            startActivity(intent)
+        })
         saveButton.setOnClickListener {
             updateProfile()
         }
