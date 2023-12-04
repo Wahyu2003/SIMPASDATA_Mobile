@@ -35,7 +35,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         })
 
-        val lupaPassword : TextView = findViewById(R.id.lupa);
+        
 
         lupaPassword.setOnClickListener(View.OnClickListener {
             // Start the next activity when the CardView is clicked
