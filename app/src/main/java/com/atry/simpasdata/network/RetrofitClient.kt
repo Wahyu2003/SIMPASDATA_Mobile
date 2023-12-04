@@ -1,5 +1,6 @@
 import com.atry.simpasdata.network.ApiClient
 import com.atry.simpasdata.network.CostumTrustManager
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -25,12 +26,12 @@ class RetrofitClient {
     private val okHttpClient: OkHttpClient = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         .build()
+    private val gson = GsonBuilder().setLenient().create()
 
 
-    private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl("http://192.168.1.14/")  // Sesuaikan dengan alamat IP atau hostname server Anda
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(okHttpClient)
+    private val retrofit = Retrofit.Builder()
+        .baseUrl("http://192.168.1.17/") // Sesuaikan dengan URL backend Anda
+        .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
 
     fun getInstance(): ApiClient {

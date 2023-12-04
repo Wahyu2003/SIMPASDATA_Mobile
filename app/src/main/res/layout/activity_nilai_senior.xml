@@ -10,30 +10,45 @@
     tools:context=".nilai_senior">
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:text="DATA NILAI"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:background="@drawable/border_textview"
+        />
+
+    <TextView
         android:id="@+id/nisnTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="35sp"
+        android:layout_marginTop="40dp"
+        android:textColor="@color/black"
+        android:textSize="25sp"
         android:text="NISN"
-        android:gravity="center"/>
+        android:paddingLeft="20dp"/>
 
     <TextView
         android:id="@+id/namaTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textSize="35sp"
+        android:textSize="25sp"
+        android:textColor="@color/black"
         android:text="USERNAME"
-        android:gravity="center"/>
+        android:paddingLeft="20dp"/>
     <TextView
         android:id="@+id/kelasTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textSize="35sp"
+        android:textSize="25sp"
+        android:textColor="@color/black"
         android:text="KELAS"
-        android:gravity="center" />
+        android:paddingLeft="20dp"
+        />
     <TextView
 
         android:layout_width="match_parent"
@@ -41,7 +56,7 @@
         android:textSize="30sp"
         android:gravity="center"
         android:text="RATA-RATA NILAI"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="40dp"
         android:textStyle="bold"
         android:background="@drawable/border_textview"
         android:textColor="@color/white"/>

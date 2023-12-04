@@ -62,9 +62,9 @@ class nilai_senior : AppCompatActivity() {
                         val alfabetTextView: TextView = findViewById(R.id.nilaiAlfabetTextView)
 
                         // Menampilkan nilai pada TextView
-                        nisnTextView.text = "${nilai1.nisn}"
-                        namaTextView.text = "${nilai1.nama}"
-                        kelasTextView.text = "${nilai1.kelas}"
+                        nisnTextView.text = "NISN    :  ${nilai1.nisn}"
+                        namaTextView.text = "NAMA    :  ${nilai1.nama}"
+                        kelasTextView.text = "KELAS   :  ${nilai1.kelas}"
                         sikapTextView.text = "${rataSikap}"
                         polapikirTextView.text = "${rataPolaPikir}"
                         keaktifanTextView.text = "${rataKeaktifan}"

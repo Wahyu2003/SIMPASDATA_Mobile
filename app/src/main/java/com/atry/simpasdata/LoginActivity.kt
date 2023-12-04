@@ -31,12 +31,9 @@ class LoginActivity : AppCompatActivity() {
 
 
 
-
-
-
         lupaPassword.setOnClickListener(View.OnClickListener {
             // Start the next activity when the CardView is clicked
-            val intent = Intent(this@LoginActivity, LupaPassword::class.java)
+            val intent = Intent(this@LoginActivity, reset::class.java)
             startActivity(intent)
         })
 

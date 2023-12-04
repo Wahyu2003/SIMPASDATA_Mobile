@@ -2,12 +2,9 @@ package com.atry.simpasdata.network
 
 
 import com.atry.simpasdata.model.JuniorData
-import com.atry.simpasdata.model.ResetPasswordResponse
 import com.atry.simpasdata.model.ResponseLogin
 import com.atry.simpasdata.model.Response_Profile
-import com.atry.simpasdata.model.SendOTPResponse
 import com.atry.simpasdata.model.SeniorData
-import com.atry.simpasdata.model.VerifyOTPResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody
@@ -57,21 +54,6 @@ interface ApiClient {
     fun getSeniorData(
         @Field("nisn") nisn: String
     ): Call<SeniorData>
-
-
-    @FormUrlEncoded
-    @POST("SIMPASDATA_Web/database/forgot.php") // Ganti dengan endpoint sesuai kebutuhan Anda
-    fun sendOTP(@Field("email") email: String): Call<SendOTPResponse>
-
-    @FormUrlEncoded
-    @POST("SIMPASDATA_Web/database/verification.php") // Ganti dengan endpoint sesuai kebutuhan Anda
-    fun verifyOTP(@Field("email") email: String?,
-                  @Field("otp") otp: String): Call<VerifyOTPResponse>
-
-    @FormUrlEncoded
-    @POST("SIMPASDATA_Web/database/verification.php") // Ganti dengan endpoint sesuai kebutuhan Anda
-    fun resetPassword(@Field("email") email: String?,
-                      @Field("newPassword") newPassword: String): Call<ResetPasswordResponse>
 
 }
 
