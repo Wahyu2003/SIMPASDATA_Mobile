@@ -14,7 +14,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-
 import com.atry.simpasdata.model.ProfileItem
 import com.atry.simpasdata.model.Response_Profile
 import retrofit2.Call

@@ -1,40 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/lupa"
-    tools:context=".Verifikasi">
-
-    <ImageView
-        android:layout_width="341dp"
-        android:layout_height="311dp"
-        android:layout_gravity="center"
-        android:background="@drawable/verifikasi" />
-
+    tools:context=".VerificationActivity">
 
     <EditText
-        android:id="@+id/enter_otp"
-        android:layout_width="360dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="50dp"
-        android:layout_gravity="center"
-        android:hint="ENTER OTP"
-        android:background="@drawable/round_edit_text"
-        android:padding="10dp"
-        />
+        android:id="@+id/etOTP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter OTP"
+        android:layout_margin="16dp"
+        android:inputType="text"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"/>
+
+    <EditText
+        android:id="@+id/etNewPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter New Password"
+        android:layout_margin="16dp"
+        android:inputType="textPassword"
+        android:layout_below="@id/etOTP"
+        android:layout_centerHorizontal="true"/>
+
     <Button
-        android:id="@+id/verifikasi"
-        android:layout_width="360dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:text="VERIFIKASI"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:background="@drawable/button"/>
+        android:id="@+id/btnVerifyOTP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Verify OTP"
+        android:layout_below="@id/etNewPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
 
+    <Button
+        android:id="@+id/btnResetPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Reset Password"
+        android:layout_below="@id/btnVerifyOTP"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"/>
 
-</LinearLayout>
+</RelativeLayout>

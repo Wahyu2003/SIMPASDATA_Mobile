@@ -19,6 +19,9 @@
         <activity
             android:name=".Verifikasi"
             android:exported="false" />
+        <activity
+            android:name=".LupaPassword"
+            android:exported="false" />
 
         <activity
             android:name=".nilai"
