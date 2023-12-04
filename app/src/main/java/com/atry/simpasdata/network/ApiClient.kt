@@ -6,6 +6,7 @@ import com.atry.simpasdata.model.ResetPasswordResponse
 import com.atry.simpasdata.model.ResponseLogin
 import com.atry.simpasdata.model.Response_Profile
 import com.atry.simpasdata.model.SendOTPResponse
+import com.atry.simpasdata.model.SeniorData
 import com.atry.simpasdata.model.VerifyOTPResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -51,6 +52,12 @@ interface ApiClient {
     fun getJuniorData(
         @Field("nisn") nisn: String
     ): Call<JuniorData>
+    @FormUrlEncoded
+    @POST("SIMPASDATA_Web/database/nilai_senior.php") // Sesuaikan dengan path PHP Anda
+    fun getSeniorData(
+        @Field("nisn") nisn: String
+    ): Call<SeniorData>
+
 
     @FormUrlEncoded
     @POST("SIMPASDATA_Web/database/forgot.php") // Ganti dengan endpoint sesuai kebutuhan Anda
@@ -65,6 +72,7 @@ interface ApiClient {
     @POST("SIMPASDATA_Web/database/verification.php") // Ganti dengan endpoint sesuai kebutuhan Anda
     fun resetPassword(@Field("email") email: String?,
                       @Field("newPassword") newPassword: String): Call<ResetPasswordResponse>
+
 }
 
 

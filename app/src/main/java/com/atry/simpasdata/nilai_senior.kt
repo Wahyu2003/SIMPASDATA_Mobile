@@ -6,17 +6,17 @@ import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.atry.simpasdata.model.JuniorData
-import com.atry.simpasdata.model.nilai
+import com.atry.simpasdata.model.SeniorData
+import com.atry.simpasdata.model.nilaii
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class nilai : AppCompatActivity() {
+class nilai_senior : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_nilai)
+        setContentView(R.layout.activity_nilai_senior)
 
         // Mengambil NISN dari Shared Preferences
         val sharedPrefs = getSharedPreferences("user_data", Context.MODE_PRIVATE)
@@ -32,22 +32,21 @@ class nilai : AppCompatActivity() {
         val api = RetrofitClient().getInstance()
 
         // Mengirim permintaan ke server untuk mendapatkan data nilai berdasarkan NISN
-        val call = api.getJuniorData(nisn)
+        val call = api.getSeniorData(nisn)
 
-        call.enqueue(object : Callback<JuniorData> {
-            override fun onResponse(call: Call<JuniorData>, response: Response<JuniorData>) {
+        call.enqueue(object : Callback<SeniorData> {
+            override fun onResponse(call: Call<SeniorData>, response: Response<SeniorData>) {
                 if (response.isSuccessful) {
-                    val juniorData = response.body()
+                    val seniorData = response.body()
 
-                    if (juniorData?.data?.isNotEmpty() == true) {
+                    if (seniorData?.data?.isNotEmpty() == true) {
                         // Mengambil nilai pertama
-                        val nilai1: nilai = juniorData.data[0]
+                        val nilai1: nilaii = seniorData.data[0]
 
                         // Konversi nilai yang diterima sebagai String menjadi Double
                         val rataSikap: Double = nilai1.rata_sikap.toDouble()
                         val rataPolaPikir: Double = nilai1.rata_pola_pikir.toDouble()
                         val rataKeaktifan: Double = nilai1.rata_keaktifan.toDouble()
-                        val rataPBB: Double = nilai1.rata_pbb.toDouble()
                         val rataKeseluruhan: Double = nilai1.rata_keseluruhan.toDouble()
                         val rataPelanggaran: Double = nilai1.rata_pelanggaran.toDouble()
 
@@ -58,7 +57,6 @@ class nilai : AppCompatActivity() {
                         val sikapTextView: TextView = findViewById(R.id.rataSikapTextView)
                         val polapikirTextView: TextView = findViewById(R.id.rataPolaPikirTextView)
                         val keaktifanTextView: TextView = findViewById(R.id.rataKeaktifanTextView)
-                        val pbbTextView: TextView = findViewById(R.id.rataPBBTextView)
                         val keseluruhanTextView: TextView = findViewById(R.id.rataKeseluruhanTextView)
                         val pelanggaranTextView: TextView = findViewById(R.id.rataPelanggaranTextView)
                         val alfabetTextView: TextView = findViewById(R.id.nilaiAlfabetTextView)
@@ -70,22 +68,21 @@ class nilai : AppCompatActivity() {
                         sikapTextView.text = "${rataSikap}"
                         polapikirTextView.text = "${rataPolaPikir}"
                         keaktifanTextView.text = "${rataKeaktifan}"
-                        pbbTextView.text = "${rataPBB}"
                         keseluruhanTextView.text = "${rataKeseluruhan}"
                         pelanggaranTextView.text = "${rataPelanggaran}"
                         alfabetTextView.text = "${nilai1.nilai_alfabet}"
 
                     } else {
-                        Toast.makeText(this@nilai, "Data nilai kosong", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@nilai_senior, "Data nilai kosong", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Toast.makeText(this@nilai, "Gagal mengambil data nilai", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@nilai_senior, "Gagal mengambil data nilai", Toast.LENGTH_SHORT).show()
                 }
             }
 
-            override fun onFailure(call: Call<JuniorData>, t: Throwable) {
+            override fun onFailure(call: Call<SeniorData>, t: Throwable) {
                 // Pesan Toast onFailure yang lebih deskriptif
-                Toast.makeText(this@nilai, "Gagal terhubung ke server: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@nilai_senior, "Gagal terhubung ke server: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }

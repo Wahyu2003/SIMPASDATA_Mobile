@@ -17,12 +17,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".nilai_senior"
+            android:exported="false" />
+        <activity
             android:name=".Verifikasi"
             android:exported="false" />
         <activity
             android:name=".LupaPassword"
             android:exported="false" />
-
         <activity
             android:name=".nilai"
             android:exported="false" />
