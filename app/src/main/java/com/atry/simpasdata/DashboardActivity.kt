@@ -4,7 +4,6 @@ import RetrofitClient
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.provider.ContactsContract.Profile
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -23,6 +22,7 @@ import retrofit2.Response
 class DashboardActivity : AppCompatActivity() {
 
     private lateinit var profileNameTextView: TextView
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,9 +31,10 @@ class DashboardActivity : AppCompatActivity() {
         // Initialize the view
         profileNameTextView = findViewById(R.id.profile_name)
 
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE)
 
         // Get NISN from SharedPreferences
-        val sharedPreferences: SharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE)
         val nipnisn: String? = sharedPreferences.getString("NISN", "")
         Log.d("NISN", "NISN: $nipnisn")
 
@@ -64,6 +65,24 @@ class DashboardActivity : AppCompatActivity() {
                                     if (nama != null) {
                                         // Update UI with the obtained name
                                         profileNameTextView.text = nama
+
+                                        // Save Role to SharedPreferences
+                                        val role: String? = profile.role
+                                        if (role != null) {
+                                            val editor = sharedPreferences.edit()
+                                            editor.putString("role", role)
+                                            editor.apply()
+                                            // Log saved Role
+                                            Log.d("SharedPreferences", "Role saved: $role")
+                                        } else {
+                                            // Handle the case where 'role' is null
+                                            Toast.makeText(
+                                                this@DashboardActivity,
+                                                "Data role tidak valid (role is null)",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+
                                         fotoprof.loadProfileImage(profile.foto, fotoImageView)
                                     } else {
                                         // Handle the case where 'nama' is null
@@ -136,18 +155,39 @@ class DashboardActivity : AppCompatActivity() {
                 .show()
         }
 
-
         // Set an OnClickListener for the CardView
         home.setOnClickListener(View.OnClickListener {
-            // Start the next activity when the CardView is clicked
-            val intent = Intent(this@DashboardActivity, nilai::class.java)
-            startActivity(intent)
+            val role = sharedPreferences.getString("role", "")
+
+            // Redirect based on user's role
+            when (role) {
+                "junior" -> {
+                    // User is a junior, redirect to NilaiActivity
+                    val intent = Intent(this@DashboardActivity, nilai::class.java)
+                    startActivity(intent)
+                }
+                "senior" -> {
+                    // User is a senior, redirect to NilaiSeniorActivity
+                    val intent = Intent(this@DashboardActivity, nilai_senior::class.java)
+                    startActivity(intent)
+                }
+                else -> {
+                    // Handle the case where role is not recognized or is empty
+                    Toast.makeText(
+                        this@DashboardActivity,
+                        "Role not recognized or is empty",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         })
+
         akun.setOnClickListener(View.OnClickListener {
             // Start the next activity when the CardView is clicked
             val intent = Intent(this@DashboardActivity, ProfileActivity::class.java)
             startActivity(intent)
         })
+
         logout.setOnClickListener(View.OnClickListener {
             // Start the next activity when the CardView is clicked
             val intent = Intent(this@DashboardActivity, LoginActivity::class.java)
