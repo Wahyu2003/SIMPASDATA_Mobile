@@ -1,52 +1,92 @@
 package com.atry.simpasdata
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+
+import RetrofitClient
+import android.content.Context
+import android.os.Bundle
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
-import com.atry.simpasdata.R
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.atry.simpasdata.model.JuniorData
+import com.atry.simpasdata.model.nilai
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class nilai(private val juniorDataList: List<JuniorData>) :
-    RecyclerView.Adapter<nilai.ViewHolder>() {
+class nilai : AppCompatActivity() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.activity_nilai, parent, false)
-        return ViewHolder(view)
-    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_nilai)
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val juniorData = juniorDataList[position]
-        holder.bind(juniorData)
-    }
+        // Mengambil NISN dari Shared Preferences
+        val sharedPrefs = getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val nisn = sharedPrefs.getString("NISN", "")
 
-    override fun getItemCount(): Int {
-        return juniorDataList.size
-    }
-
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val nisnTextView: TextView = itemView.findViewById(R.id.nisnTextView)
-        private val namaTextView: TextView = itemView.findViewById(R.id.namaTextView)
-        private val kelasTextView: TextView = itemView.findViewById(R.id.kelasTextView)
-        private val rataSikapTextView: TextView = itemView.findViewById(R.id.rataSikapTextView)
-        private val rataPolaPikirTextView: TextView = itemView.findViewById(R.id.rataPolaPikirTextView)
-        private val rataKeaktifanTextView: TextView = itemView.findViewById(R.id.rataKeaktifanTextView)
-        private val rataPBBTextView: TextView = itemView.findViewById(R.id.rataPBBTextView)
-        private val rataKeseluruhanTextView: TextView = itemView.findViewById(R.id.rataKeseluruhanTextView)
-        private val rataPelanggaranTextView: TextView = itemView.findViewById(R.id.rataPelanggaranTextView)
-        private val nilaiAlfabetTextView: TextView = itemView.findViewById(R.id.nilaiAlfabetTextView)
-
-        fun bind(juniorData: JuniorData) {
-            nisnTextView.text = "NISN: ${juniorData.nisn}"
-            namaTextView.text = "Nama: ${juniorData.nama}"
-            kelasTextView.text = "Kelas: ${juniorData.kelas}"
-            rataSikapTextView.text = "Rata Sikap: ${juniorData.rataSikap}"
-            rataPolaPikirTextView.text = "Rata Pola Pikir: ${juniorData.rataPolaPikir}"
-            rataKeaktifanTextView.text = "Rata Keaktifan: ${juniorData.rataKeaktifan}"
-            rataPBBTextView.text = "Rata PBB: ${juniorData.rataPBB}"
-            rataKeseluruhanTextView.text = "Rata Keseluruhan: ${juniorData.rataKeseluruhan}"
-            rataPelanggaranTextView.text = "Rata Pelanggaran: ${juniorData.rataPelanggaran}"
-            nilaiAlfabetTextView.text = "Nilai Alfabet: ${juniorData.nilaiAlfabet}"
+        if (nisn.isNullOrEmpty()) {
+            // Handle case where NISN is not available
+            Toast.makeText(this, "NISN tidak valid", Toast.LENGTH_SHORT).show()
+            return
         }
+
+        // Mendapatkan instance dari RetrofitClient
+        val api = RetrofitClient().getInstance()
+
+        // Mengirim permintaan ke server untuk mendapatkan data nilai berdasarkan NISN
+        val call = api.getJuniorData(nisn)
+
+        call.enqueue(object : Callback<JuniorData> {
+            override fun onResponse(call: Call<JuniorData>, response: Response<JuniorData>) {
+                if (response.isSuccessful) {
+                    val juniorData = response.body()
+
+                    if (juniorData?.data?.isNotEmpty() == true) {
+                        // Mengambil nilai pertama
+                        val nilai1: nilai = juniorData.data[0]
+
+                        // Konversi nilai yang diterima sebagai String menjadi Double
+                        val rataSikap: Double = nilai1.rata_sikap.toDouble()
+                        val rataPolaPikir: Double = nilai1.rata_pola_pikir.toDouble()
+                        val rataKeaktifan: Double = nilai1.rata_keaktifan.toDouble()
+                        val rataPBB: Double = nilai1.rata_pbb.toDouble()
+                        val rataKeseluruhan: Double = nilai1.rata_keseluruhan.toDouble()
+                        val rataPelanggaran: Double = nilai1.rata_pelanggaran.toDouble()
+
+                        // Menampilkan nilai pada TextView
+                        val nisnTextView: TextView = findViewById(R.id.nisnTextView)
+                        val namaTextView: TextView = findViewById(R.id.namaTextView)
+                        val kelasTextView: TextView = findViewById(R.id.kelasTextView)
+                        val sikapTextView: TextView = findViewById(R.id.rataSikapTextView)
+                        val polapikirTextView: TextView = findViewById(R.id.rataPolaPikirTextView)
+                        val keaktifanTextView: TextView = findViewById(R.id.rataKeaktifanTextView)
+                        val pbbTextView: TextView = findViewById(R.id.rataPBBTextView)
+                        val keseluruhanTextView: TextView = findViewById(R.id.rataKeseluruhanTextView)
+                        val pelanggaranTextView: TextView = findViewById(R.id.rataPelanggaranTextView)
+                        val alfabetTextView: TextView = findViewById(R.id.nilaiAlfabetTextView)
+
+                        // Menampilkan nilai pada TextView
+                        nisnTextView.text = "Nisn: ${nilai1.nisn}"
+                        namaTextView.text = "Nama: ${nilai1.nama}"
+                        kelasTextView.text = "Kelas: ${nilai1.kelas}"
+                        sikapTextView.text = "Nilai Sikap: $rataSikap"
+                        polapikirTextView.text = "Nilai Pola Pikir: $rataPolaPikir"
+                        keaktifanTextView.text = "Nilai Keaktifan: $rataKeaktifan"
+                        pbbTextView.text = "Nilai PBB: $rataPBB"
+                        keseluruhanTextView.text = "Nilai Keseluruhan: $rataKeseluruhan"
+                        pelanggaranTextView.text = "Pelanggaran: $rataPelanggaran"
+                        alfabetTextView.text = "Alfabet: ${nilai1.nilai_alfabet}"
+
+                    } else {
+                        Toast.makeText(this@nilai, "Data nilai kosong", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this@nilai, "Gagal mengambil data nilai", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<JuniorData>, t: Throwable) {
+                // Pesan Toast onFailure yang lebih deskriptif
+                Toast.makeText(this@nilai, "Gagal terhubung ke server: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

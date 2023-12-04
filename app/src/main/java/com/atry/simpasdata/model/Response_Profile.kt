@@ -12,7 +12,7 @@ data class ProfileItem(
     val no_hp: String,
     val alamat: String,
     val role: String,
-    val nama_kelas: String,
+    val kelas: String,
     val foto: String
 )
 

@@ -140,7 +140,7 @@ class DashboardActivity : AppCompatActivity() {
         // Set an OnClickListener for the CardView
         home.setOnClickListener(View.OnClickListener {
             // Start the next activity when the CardView is clicked
-            val intent = Intent(this@DashboardActivity, HomeActivity::class.java)
+            val intent = Intent(this@DashboardActivity, nilai::class.java)
             startActivity(intent)
         })
         akun.setOnClickListener(View.OnClickListener {

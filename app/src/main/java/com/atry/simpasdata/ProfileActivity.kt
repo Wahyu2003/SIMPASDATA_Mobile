@@ -96,7 +96,7 @@ class ProfileActivity : AppCompatActivity() {
                             noHpTextView.text = "No.HP: ${profile.no_hp}"
                             alamatTextView.text = "Alamat: ${profile.alamat}"
                             roleTextView.text = "Role: ${profile.role}"
-                            kelasTextView.text = "Kelas: ${profile.nama_kelas}"
+                            kelasTextView.text = "Kelas: ${profile.kelas}"
 
 
 

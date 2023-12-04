@@ -93,7 +93,7 @@ class edit_profil : AppCompatActivity() {
                             noHpTextView.text = "${profile.no_hp}"
                             alamatTextView.text = "${profile.alamat}"
                             roleTextView.text = "${profile.role}"
-                            kelasTextView.text = "${profile.nama_kelas}"
+                            kelasTextView.text = "${profile.kelas}"
                         } else {
                             // Handle case where profile data is empty
                             Toast.makeText(this@edit_profil, "Data profil tidak valid", Toast.LENGTH_SHORT).show()

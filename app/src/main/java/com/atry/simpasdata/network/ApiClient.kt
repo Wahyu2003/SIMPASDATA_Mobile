@@ -46,11 +46,11 @@ interface ApiClient {
 
 
     // JuniorApi.kt
-    @POST("http://localhost/SIMPASDATA_Web/database/nilai.php") // Sesuaikan dengan path PHP Anda
     @FormUrlEncoded
-    suspend fun getJuniorData(
-        @Field("kelas_id") kelasId: String
-    ): Response<List<JuniorData>>
+    @POST("SIMPASDATA_Web/database/nilai.php") // Sesuaikan dengan path PHP Anda
+    fun getJuniorData(
+        @Field("nisn") nisn: String
+    ): Call<JuniorData>
 
     @FormUrlEncoded
     @POST("SIMPASDATA_Web/database/forgot.php") // Ganti dengan endpoint sesuai kebutuhan Anda
